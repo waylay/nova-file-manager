@@ -59,6 +59,10 @@ const openUploadCropModal = () => {
   })
 }
 
+const changeCropperAspectRatio = (ratio: number) => {
+    cropper.value?.setAspectRatio(ratio)
+}
+
 const submitCrop = (name: string) => {
   if (!destFile.value) {
     return
@@ -85,7 +89,22 @@ const submitCrop = (name: string) => {
           {{ __('NovaFileManager.actions.cropImage', { image: file.name }) }}
         </h2>
 
-        <div class="flex flex-row gap-2 justify-end flex-shrink-0">
+      <div class="flex flex-row gap-2 justify-end items-center flex-shrink-0 mr-6">
+          <p class="font-medium text-gray-900 dark:text-gray-400 break-all w-full ">Use this image as:</p>
+          <IconButton variant="transparent" @click="changeCropperAspectRatio(0)">
+              Free
+          </IconButton>
+          <IconButton variant="transparent" @click="changeCropperAspectRatio(1440/379)">
+              Banner
+          </IconButton>
+          <IconButton variant="transparent" @click="changeCropperAspectRatio(1/1)">
+              Testimonial
+          </IconButton>
+          <IconButton variant="transparent" @click="changeCropperAspectRatio(625/405)">
+              Gallery
+          </IconButton>
+      </div>
+        <div class="flex flex-row gap-2 justify-end items-center flex-shrink-0">
           <IconButton ref="buttonRef" :title="__('NovaFileManager.actions.close')" @click.prevent.stop="close">
             <XMarkIcon class="w-5 h-5" />
           </IconButton>

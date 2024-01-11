@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { DocumentIcon } from '@heroicons/vue/24/outline'
+
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -8,9 +9,17 @@ import {
   XCircleIcon,
 } from '@heroicons/vue/24/solid'
 import { Entity } from '__types__'
-import { computed } from 'vue'
+import {computed, ref} from 'vue'
 import ImageLoader from '@/components/Elements/ImageLoader.vue'
 import Spinner from '@/components/Elements/Spinner.vue'
+import useBrowserStore from "@/stores/browser";
+import {usePermissions, usePintura} from "@/hooks";
+
+import BaseModal from '@/components/Modals/BaseModal.vue'
+import IconButton from '@/components/Elements/IconButton.vue'
+import CropIcon from '@/components/Elements/CropIcon.vue'
+import CropImageModal from '@/components/Modals/CropImageModal.vue'
+import { MODALS, PREVIEW_MODAL_NAME, QUEUE_MODAL_NAME } from '@/constants'
 
 interface Props {
   file: Entity
@@ -21,17 +30,40 @@ interface Props {
   onDeselect?: (file: Entity) => void
   singleDisk?: boolean
   fieldMode?: boolean
+  readOnly: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   selected: false,
 })
 
+const store = useBrowserStore()
+const { usePinturaEditor } = usePintura()
+
 const isImage = computed(() => props.file.type === 'image')
 const isVideo = computed(() => props.file.type === 'video')
 const isFile = computed(() => props.file.type !== 'image' && props.file.type !== 'video')
 const missing = computed(() => !props.file.exists)
 const name = computed(() => (missing.value ? props.file.path : props.file.name))
+
+const buttonRef = ref<HTMLButtonElement | HTMLAnchorElement>()
+const isCropModalOpened = computed(() => store.isOpen(`crop-image-${props.file?.id}`))
+const { showRenameFile, showDeleteFile, showCropImage, showUnzipFile } = usePermissions()
+const openModal = (name: string) => store.openModal({ name })
+
+const closePreview = () => {
+    store.preview = undefined
+
+    store.fixPortal()
+}
+
+const onEditImage = (file: File) => {
+    closePreview()
+
+    openModal(QUEUE_MODAL_NAME)
+
+    store.upload({ files: [file] })
+}
 </script>
 
 <template>
@@ -116,8 +148,24 @@ const name = computed(() => (missing.value ? props.file.path : props.file.name))
       <span v-if="fieldMode && !singleDisk && file.disk?.length > 0" class="ml-0.5">&centerdot; {{ file.disk }}</span>
     </div>
 
-    <span class="absolute top-1 right-1" v-if="selected">
+    <span class="absolute top-1 left-1" v-if="selected">
       <CheckCircleIcon class="h-5 w-5 text-blue-500" aria-hidden="true" />
     </span>
+    <span class="absolute top-1 right-1" v-if="selected">
+      <IconButton
+          v-if="!readOnly && showCropImage && !usePinturaEditor && file?.type === 'image'"
+          variant="secondary"
+          @click="openModal(`crop-image-${file?.id}`)"
+          :title="__('NovaFileManager.actions.cropImage', { image: file?.name })"
+          >
+        <CropIcon class="w-5 h-5" />
+      </IconButton>
+    </span>
+    <CropImageModal
+      v-if="showCropImage && isCropModalOpened"
+      :name="`crop-image-${file?.id}`"
+      :file="file"
+      :on-confirm="onEditImage"
+    />
   </button>
 </template>
