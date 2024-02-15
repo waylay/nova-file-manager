@@ -80,10 +80,11 @@ const submitCrop = (name: string) => {
 </script>
 
 <template>
-  <BaseModal as="template" class="nova-file-manager" :name="name" v-slot="{ close }">
+  <BaseModal as="template" class="nova-file-manager" :name="name" v-slot="{ close }" :initial-focus-ref="buttonRef">
     <DialogPanel
       class="relative bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden shadow-xl transform transition-all w-full max-w-7xl p-4 flex flex-col gap-4 h-[80vh] max-h-[80vh]"
     >
+
       <div class="w-full flex flex-col flex-col-reverse gap-2 md:flex-row justify-between items-start">
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-400 break-all w-full">
           {{ __('NovaFileManager.actions.cropImage', { image: file.name }) }}
