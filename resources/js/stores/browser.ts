@@ -18,13 +18,13 @@ import range from 'lodash/range'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import Resumable from 'resumablejs'
 import {
-  BROWSER_MODAL_NAME,
-  ENDPOINTS,
-  MODALS,
-  OPERATIONS,
-  PREVIEW_MODAL_NAME,
-  QUEUE_MODAL_NAME,
-  UPLOAD_MODAL_NAME,
+    BROWSER_MODAL_NAME, CROP_MODAL_NAME,
+    ENDPOINTS,
+    MODALS,
+    OPERATIONS,
+    PREVIEW_MODAL_NAME,
+    QUEUE_MODAL_NAME, UPLOAD_CROP_MODAL_NAME,
+    UPLOAD_MODAL_NAME,
 } from '@/constants'
 import attempt from '@/helpers/attempt'
 import { client } from '@/helpers/client'
@@ -587,6 +587,11 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
     upload({ files }: { files: File[] }) {
       this.isUploading = true
 
+
+        // TODO: upload in the correct folder directly based on the request
+      this.disk = 'default'
+      this.path = '/'
+
       const uploader = new Resumable({
         permanentErrors: [400, 404, 409, 415, 419, 422, 500, 501],
         chunkSize: this.chunkSize,
@@ -757,6 +762,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
           disk: this.disk,
         }
       }
+
 
       if (this.isField && this.flexibleGroup?.length) {
         data = {
