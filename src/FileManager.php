@@ -217,9 +217,9 @@ class FileManager extends Field implements InteractsWithFilesystemContract, Cove
 
         $this->prepareStorageCallback($wrapper->storageCallback);
 
-        $this->multiple = $wrapper->multiple;
-        $this->limit = $wrapper->limit;
-        $this->asHtml = $wrapper->asHtml;
+        $this->multiple = $this->multiple ?? $wrapper->multiple;
+        $this->limit = $this->limit ?? $wrapper->limit;
+        $this->asHtml = $this->asHtml ?? $wrapper->asHtml;
 
         $this->merge($wrapper);
 
