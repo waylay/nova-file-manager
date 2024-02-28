@@ -87,7 +87,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
     disks: undefined,
     page: undefined,
     search: undefined,
-    perPage: 15,
+    perPage: 40,
     perPageOptions: range(10, 50, 10),
     view: 'grid',
     modals: [],
@@ -459,6 +459,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
 
       this.saveToLocalStorage({ values: { disk, page: null, search: null, path: null } })
     },
+
 
     /**
      * Set the current per page

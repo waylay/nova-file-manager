@@ -45,6 +45,8 @@ return [
     'NovaFileManager.title' => 'File Manager',
     'NovaFileManager.toolbar.clear' => 'clear',
     'NovaFileManager.toolbar.selection' => 'selected',
+    'NovaFileManager.toolbar.disk.default' => 'My Library',
+    'NovaFileManager.toolbar.disk.shared' => 'Free Stock Image Library',
     'NovaFileManager.totalFilesCount' => ':count files',
     'NovaFileManager.upload' => 'Upload a file',
     'NovaFileManager.uploadCropTitle' => 'Upload cropped file',
