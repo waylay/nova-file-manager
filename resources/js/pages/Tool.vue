@@ -38,7 +38,8 @@ onBeforeMount(() => {
         <title>{{ __('NovaFileManager.title') }}</title>
       </Head>
 
-      <Heading class="mb-6" data-tour="nfm-tool-title">{{ __('NovaFileManager.title') }}</Heading>
+      <Heading class="mb-8" data-tour="nfm-tool-title">{{ __('NovaFileManager.title') }}</Heading>
+      <p class="font-normal mx-2 mb-6 custom-styles-component-heading" data-tour="nfm-tool-subtitle">{{ __('NovaFileManager.subtitle') }}</p>
 
       <UpdateChecker v-if="config.outdated" />
 
