@@ -196,7 +196,7 @@ const onSearch = debounce(({ target: { value } }) => {
               </div>
 
               <div
-                class="flex flex-wrap items-center bg-gray-50 dark:bg-gray-900 py-2.5 px-4 text-xs text-gray-700 dark:text-gray-500"
+                class="flex flex-wrap items-center bg-gray-50 dark:bg-gray-900 py-2.5 px-4 text-xs text-gray-700 dark:text-gray-500 hidden"
               >
                 {{ __('Type') }}
                 <template v-for="tip in tips" :key="tip.key">

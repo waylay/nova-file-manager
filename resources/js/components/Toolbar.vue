@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CheckIcon, CloudArrowUpIcon, FolderPlusIcon, MagnifyingGlassIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { CheckIcon, CloudArrowUpIcon, FolderPlusIcon, MagnifyingGlassIcon, InformationCircleIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { View } from '__types__'
 import { computed } from 'vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
@@ -12,11 +12,14 @@ import DeleteFileModal from '@/components/Modals/DeleteFileModal.vue'
 import UploadModal from '@/components/Modals/UploadModal.vue'
 import { MODALS, OPERATIONS } from '@/constants'
 import { usePermissions } from '@/hooks'
+import Shepherd from 'shepherd.js'
 import useBrowserStore from '@/stores/browser'
 import useSearchStore from '@/stores/search'
+import useTourStore from '@/stores/tour'
 
 const store = useBrowserStore()
 const searchStore = useSearchStore()
+const tourStore = useTourStore()
 
 const { showCreateFolder, showUploadFile, showDeleteFile } = usePermissions()
 
@@ -48,6 +51,14 @@ const createFolder = (path: string) => store.createFolder({ path })
 const openSearch = () => searchStore.open()
 const deleteSelectedFiles = () => store.deleteSelectedFiles()
 
+const openTourManually = () => {
+    window.localStorage.removeItem('nova-file-manager/tour-dismissed')
+    store.tour = true;
+    if (!Shepherd.activeTour) {
+        tourStore.init()
+    }
+}
+
 const openUploadModal = () => {
   openModal(queue.value.length ? 'queue' : 'upload')
 }
@@ -72,7 +83,7 @@ const openUploadModal = () => {
           data-tour="nfm-pagination-selector"
         />
 
-        <ViewToggle :current="view" :set-view="setView" data-tour="nfm-view-toggle" />
+        <ViewToggle :current="view" :set-view="setView" />
       </div>
       <div class="flex flex-row gap-x-2 justify-end w-full sm:w-auto flex-shrink-0">
         <div class="p-2 rounded-md font-semibold text-xs text-gray-400" v-if="selection?.length">
@@ -89,6 +100,9 @@ const openUploadModal = () => {
           </button>
         </div>
 
+        <IconButton @click="openTourManually" variant="success">
+          <InformationCircleIcon class="w-5 h-5" />
+        </IconButton>
         <IconButton @click="openModal(MODALS.DELETE_FILES)" variant="danger" v-if="selection?.length">
           <TrashIcon class="w-5 h-5" />
         </IconButton>

@@ -41,7 +41,7 @@ withDefaults(defineProps<Props>(), {
         </DisclosurePanel>
       </Disclosure>
     </div>
-    <div class="space-y-2">
+    <div class="space-y-2" >
       <Disclosure v-if="files?.length" v-slot="{ open }" :default-open="true">
         <DisclosureButton>
           <div class="flex flex-row w-full items-center gap-x-1">

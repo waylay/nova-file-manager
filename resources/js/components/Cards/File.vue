@@ -67,7 +67,7 @@ const onEditImage = (file: File) => {
 </script>
 
 <template>
-  <button class="relative cursor-pointer group focus-visible:outline-none flex flex-col items-start" :title="name">
+  <button class="relative cursor-pointer group focus-visible:outline-none flex flex-col items-start" :title="name" data-tour="nfm-upload-browse-files">
     <div
       :class="[
         'relative block aspect-square w-full h-full overflow-hidden rounded-lg hover:shadow-md hover:opacity-75 border border-gray-200/50 dark:border-gray-700/50 text-left',
@@ -151,12 +151,14 @@ const onEditImage = (file: File) => {
     <span class="absolute top-1 left-1" v-if="selected">
       <CheckCircleIcon class="h-5 w-5 text-blue-500" aria-hidden="true" />
     </span>
-    <span class="absolute top-1 right-1" v-if="selected">
+
+    <span class="absolute top-1 right-1" v-if="selected || store.tour">
       <IconButton
           v-if="!readOnly && showCropImage && !usePinturaEditor && file?.type === 'image'"
           variant="secondary"
           @click="openModal(`crop-image-${file?.id}`)"
           :title="__('NovaFileManager.actions.cropImage', { image: file?.name })"
+          data-tour="nfm-upload-crop-button"
           >
         <CropIcon class="w-5 h-5" />
       </IconButton>

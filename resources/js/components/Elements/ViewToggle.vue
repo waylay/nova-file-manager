@@ -37,6 +37,7 @@ const unselectedClass = 'text-gray-400 dark:hover:text-white hover:text-black'
         current === view.name ? selectedClass : unselectedClass,
       ]"
       type="button"
+      :data-tour="`nfm-view-toggle-${view.name}`"
       @click.prevent="setView(view.name)"
     >
       <component :is="view.icon" class="h-5 w-5" />

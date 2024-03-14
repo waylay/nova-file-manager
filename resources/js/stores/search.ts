@@ -33,7 +33,7 @@ const useSearchStore = defineStore('nova-file-manager/search', {
     folders: undefined,
     files: undefined,
     isFolderOnly: false,
-    isFileOnly: false,
+    isFileOnly: true,
     help: false,
     hasResults: false,
     canceler: undefined,
@@ -167,7 +167,7 @@ const useSearchStore = defineStore('nova-file-manager/search', {
     reset() {
       this.isLoading = false
       this.isFolderOnly = false
-      this.isFileOnly = false
+      this.isFileOnly = true
       this.help = false
 
       this.query = ''

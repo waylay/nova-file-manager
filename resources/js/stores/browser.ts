@@ -218,7 +218,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
       // loop on each query string
       for (const [key, value] of Object.entries(searchParams)) {
         // if we match one of these keys, we trigger the setter mutation
-        if (['path', 'disk', 'page', 'perPage'].includes(key)) {
+        if (['page', 'perPage'].includes(key)) {
           this.$patch({ [key]: value })
         }
       }
@@ -589,9 +589,32 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
       this.isUploading = true
 
 
-        // TODO: upload in the correct folder directly based on the request
+        console.log([
+            this.resource,
+            this.resourceId,
+            this.attribute
+        ])
+
+        // Upload in the correct folder directly based on the request
       this.disk = 'default'
+
       this.path = '/'
+
+        if(this.resource == 'testimonials') {
+            this.path = '/Testimonial Images'
+        }
+
+        if(this.attribute == 'banner' && this.resource == 'pages') {
+            this.path = '/Banner Images'
+        }
+
+        if(this.attribute == 'gallery' && this.resource == 'pages') {
+            this.path = '/Photo Gallery Images'
+        }
+
+        if(this.attribute == 'company_logo') {
+            this.path = '/Company Logo'
+        }
 
       const uploader = new Resumable({
         permanentErrors: [400, 404, 409, 415, 419, 422, 500, 501],
@@ -837,6 +860,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
       this.error = undefined
       this.permissions = undefined
       this.disk = undefined
+      this.path = undefined
 
       this.setSelection({ files: [] })
       this.closeModal({ name: BROWSER_MODAL_NAME })
@@ -856,6 +880,8 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
       this.isField = false
       this.multiple = true
       this.singleDisk = singleDisk
+        this.disk = 'default'
+        this.path = '/'
       this.permissions = permissions
       this.tour = tour
       this.usePintura = usePintura

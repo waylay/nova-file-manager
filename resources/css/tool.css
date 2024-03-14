@@ -13,6 +13,10 @@
     cursor: not-allowed;
 }
 
+.shepherd-title {
+    @apply font-bold mb-3;
+}
+
 .shepherd-footer {
     @apply absolute right-0 top-full mt-6 flex w-full flex-row items-center justify-between rounded-md;
 }
@@ -22,9 +26,10 @@
 }
 
 .shepherd-element {
-    @apply invisible w-full max-w-md rounded-md border border-indigo-500 p-4 opacity-0 shadow-lg outline-none transition-opacity bg-indigo-800/80 text-indigo-300;
-    @apply top-2 !important;
+    @apply invisible w-full max-w-md rounded-md border p-4 opacity-0 shadow-lg outline-none transition-opacity bg-opacity-80 text-white;
     z-index: 9999;
+    border-color: rgb(110 70 174 / 1);
+    background-color: rgb(35 9 57 / .9);
 }
 
 .shepherd-enabled.shepherd-element {
