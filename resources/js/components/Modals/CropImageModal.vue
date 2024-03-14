@@ -116,7 +116,7 @@ const submitCrop = (name: string) => {
         </div>
       </div>
 
-      <div class="h-full max-h-[70vh]">
+      <div class="h-full max-h-[70vh]" data-tour="nfm-upload-crop-name">
         <vue-cropper
           ref="cropper"
           :containerStyle="containerStyle"

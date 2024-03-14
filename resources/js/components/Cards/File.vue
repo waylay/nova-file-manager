@@ -152,7 +152,7 @@ const onEditImage = (file: File) => {
       <CheckCircleIcon class="h-5 w-5 text-blue-500" aria-hidden="true" />
     </span>
 
-    <span class="absolute top-1 right-1" v-if="selected || store.tour">
+    <span class="absolute top-1 right-1" v-if="selected">
       <IconButton
           v-if="!readOnly && showCropImage && !usePinturaEditor && file?.type === 'image'"
           variant="secondary"
