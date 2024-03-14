@@ -7,6 +7,7 @@ namespace Oneduo\NovaFileManager\Traits\Support;
 use Closure;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Oneduo\NovaFileManager\Contracts\Support\InteractsWithFilesystem as InteractsWithFilesystemContract;
 
@@ -86,7 +87,7 @@ trait InteractsWithFilesystem
     {
         return is_callable($this->showCreateFolder)
             ? call_user_func($this->showCreateFolder, $request)
-            : true;
+            : false;
     }
 
     public function showRenameFolder(Closure $callback): static
@@ -98,9 +99,18 @@ trait InteractsWithFilesystem
 
     public function shouldShowRenameFolder(NovaRequest $request): bool
     {
+        if ($request->input('disk') == 'shared') {
+            throw ValidationException::withMessages([
+                // folder for folder operations, and file for file operations
+                // must return a string[]
+                'file' => [
+                    'You cannot rename folders in the media library.',
+                ],
+            ]);
+        }
         return is_callable($this->showRenameFolder)
             ? call_user_func($this->showRenameFolder, $request)
-            : true;
+            : false;
     }
 
     public function showDeleteFolder(Closure $callback): static
@@ -114,7 +124,7 @@ trait InteractsWithFilesystem
     {
         return is_callable($this->showDeleteFolder)
             ? call_user_func($this->showDeleteFolder, $request)
-            : true;
+            : false;
     }
 
     public function showUploadFile(Closure $callback): static
@@ -126,6 +136,17 @@ trait InteractsWithFilesystem
 
     public function shouldShowUploadFile(NovaRequest $request): bool
     {
+        if ($request->input('disk') == 'shared') {
+            throw ValidationException::withMessages([
+                // folder for folder operations, and file for file operations
+                // must return a string[]
+                'file' => [
+                    'You cannot upload files to the shared media library.',
+                ],
+            ]);
+
+        }
+
         return is_callable($this->showUploadFile)
             ? call_user_func($this->showUploadFile, $request)
             : true;
@@ -140,6 +161,17 @@ trait InteractsWithFilesystem
 
     public function shouldShowRenameFile(NovaRequest $request): bool
     {
+        if ($request->input('disk') == 'shared') {
+            throw ValidationException::withMessages([
+                // folder for folder operations, and file for file operations
+                // must return a string[]
+                'file' => [
+                    'You cannot rename files in the shared media library.',
+                ],
+            ]);
+
+        }
+
         return is_callable($this->showRenameFile)
             ? call_user_func($this->showRenameFile, $request)
             : true;
@@ -154,6 +186,17 @@ trait InteractsWithFilesystem
 
     public function shouldShowDeleteFile(NovaRequest $request): bool
     {
+        if ($request->input('disk') == 'shared') {
+            throw ValidationException::withMessages([
+                // folder for folder operations, and file for file operations
+                // must return a string[]
+                'file' => [
+                    'You cannot delete files from the shared media library.',
+                ],
+            ]);
+
+        }
+
         return is_callable($this->showDeleteFile)
             ? call_user_func($this->showDeleteFile, $request)
             : true;
