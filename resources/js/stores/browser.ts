@@ -588,33 +588,21 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
     upload({ files }: { files: File[] }) {
       this.isUploading = true
 
-
-        console.log([
-            this.resource,
-            this.resourceId,
-            this.attribute
-        ])
-
-        // Upload in the correct folder directly based on the request
+      // Upload in the correct folder directly based on the request
       this.disk = 'default'
 
-      this.path = '/'
+      if(this.resource == 'testimonials' || this.path == '/Testimonial Images') {
+        this.path = '/Testimonial Images'
+      } else if((this.attribute == 'banner' && this.resource == 'pages') || this.path == '/Banner Images') {
+        this.path = '/Banner Images'
+      } else if((this.attribute == 'gallery' && this.resource == 'pages' ) || this.path == '/Photo Gallery Images') {
+        this.path = '/Photo Gallery Images'
+      } else if(this.attribute == 'company_logo' || this.path == '/Company Logo') {
+        this.path = '/Company Logo'
+      } else {
+        this.path = '/'
+      }
 
-        if(this.resource == 'testimonials') {
-            this.path = '/Testimonial Images'
-        }
-
-        if(this.attribute == 'banner' && this.resource == 'pages') {
-            this.path = '/Banner Images'
-        }
-
-        if(this.attribute == 'gallery' && this.resource == 'pages') {
-            this.path = '/Photo Gallery Images'
-        }
-
-        if(this.attribute == 'company_logo') {
-            this.path = '/Company Logo'
-        }
 
       const uploader = new Resumable({
         permanentErrors: [400, 404, 409, 415, 419, 422, 500, 501],

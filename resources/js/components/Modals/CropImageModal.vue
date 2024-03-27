@@ -46,17 +46,20 @@ const openModal = (name: string) => store.openModal({ name })
 const closeModal = (name: string) => store.closeModal({ name })
 
 const openUploadCropModal = () => {
-  cropper.value?.getCroppedCanvas().toBlob((blob: Blob | null) => {
-    if (!blob) {
-      return
-    }
+  cropper.value?.getCroppedCanvas({
+      maxWidth: 1920,
+      maxHeight: 1080,
+    }).toBlob((blob: Blob | null) => {
+        if (!blob) {
+          return
+        }
 
-    destFile.value = new File([blob], props.file.name, {
-      type: props.file.mime,
-    })
+        destFile.value = new File([blob], props.file.name, {
+          type: props.file.mime,
+        })
 
-    openModal(UPLOAD_CROP_MODAL_NAME)
-  })
+        openModal(UPLOAD_CROP_MODAL_NAME)
+  }, props.file.mime)
 }
 
 const changeCropperAspectRatio = (ratio: number) => {
