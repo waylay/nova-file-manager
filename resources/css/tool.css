@@ -80,3 +80,6 @@
 .file-thumb-wrapper:hover .show-on-hover {
     display: block;
 }
+.preview-controls .file-thumb-wrapper:hover .show-on-hover {
+    display: none;
+}
