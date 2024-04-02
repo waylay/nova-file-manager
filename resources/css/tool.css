@@ -77,9 +77,6 @@
     --color-foreground: 255, 255, 255;
 }
 
-.file-thumb-wrapper:hover .show-on-hover {
+.custom-styles-component-disclosure-panel .file-thumb-wrapper:hover .show-on-hover {
     display: block;
-}
-.preview-controls .file-thumb-wrapper:hover .show-on-hover {
-    display: none;
 }
