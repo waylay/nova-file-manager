@@ -12,14 +12,11 @@ import DeleteFileModal from '@/components/Modals/DeleteFileModal.vue'
 import UploadModal from '@/components/Modals/UploadModal.vue'
 import { MODALS, OPERATIONS } from '@/constants'
 import { usePermissions } from '@/hooks'
-import Shepherd from 'shepherd.js'
 import useBrowserStore from '@/stores/browser'
 import useSearchStore from '@/stores/search'
-import useTourStore from '@/stores/tour'
 
 const store = useBrowserStore()
 const searchStore = useSearchStore()
-const tourStore = useTourStore()
 
 const { showCreateFolder, showUploadFile, showDeleteFile } = usePermissions()
 
@@ -51,13 +48,6 @@ const createFolder = (path: string) => store.createFolder({ path })
 const openSearch = () => searchStore.open()
 const deleteSelectedFiles = () => store.deleteSelectedFiles()
 
-const openTourManually = () => {
-    window.localStorage.removeItem('nova-file-manager/tour-dismissed')
-    store.tour = true;
-    if (!Shepherd.activeTour) {
-        tourStore.init()
-    }
-}
 
 const openUploadModal = () => {
   openModal(queue.value.length ? 'queue' : 'upload')
@@ -100,9 +90,6 @@ const openUploadModal = () => {
           </button>
         </div>
 
-        <IconButton @click="openTourManually" variant="success">
-          <InformationCircleIcon class="w-5 h-5" />
-        </IconButton>
         <IconButton @click="openModal(MODALS.DELETE_FILES)" variant="danger" v-if="selection?.length">
           <TrashIcon class="w-5 h-5" />
         </IconButton>
