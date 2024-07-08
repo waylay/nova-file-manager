@@ -590,8 +590,8 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
 
       // Upload in the correct folder directly based on the request
       this.disk = 'default'
-      if(this.resource == 'media-campaigns' || this.path == '/Reports') {
-          this.path = '/Reports'
+      if(this.resource == 'media-campaigns' || this.path == '/Media Campaign Reports') {
+          this.path = '/Media Campaign Reports'
       } else if(this.resource == 'testimonials' || this.path == '/Testimonial Images') {
         this.path = '/Testimonial Images'
       } else if((this.attribute == 'banner' && this.resource == 'pages') || this.path == '/Banner Images') {
