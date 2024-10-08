@@ -130,7 +130,7 @@ const onEditImage = (file: File) => {
     <p
       v-if="!missing || isUploading"
       :class="[
-        'pointer-events-none mt-2 block truncate font-medium text-gray-900 dark:text-gray-50 text-left w-full',
+        'pointer-events-none py-2 block truncate font-bold text-gray-900 dark:text-gray-50 text-left w-full',
         isUploading || onDeselect ? 'text-xs' : 'text-sm',
       ]"
       :title="!isUploading ? name : file.name"
@@ -146,7 +146,6 @@ const onEditImage = (file: File) => {
       class="gap-x-0.5 inline-flex flex-wrap items-center text-xs pointer-events-none block font-medium text-gray-500 text-left break-all"
     >
       <span v-if="file.size">{{ file.size }}</span>
-      <span v-if="fieldMode && !singleDisk && file.disk?.length > 0" class="ml-0.5">&centerdot; {{ file.disk }}</span>
     </div>
 
     <span class="absolute top-1 left-1" v-if="selected">
